@@ -1,0 +1,45 @@
+@import "bootstrap-custom";
+@import "bootstrap/variables";
+@import "bootstrap/mixins";
+//@import "bootstrap";
+
+body {
+  background: #f0f;
+  //test comment
+}
+
+h1 {
+  color: #f00;
+}
+.red {
+  color: #f00;
+}
+
+.test {
+  transform: rotate(56deg);
+  .row {
+    margin: 0 0 1em;
+    @media (min-width: 30em) {
+      width: 30em 0;
+    }
+    @media (min-width: 40em) {
+      width: 40em;
+    }
+    @media (max-width: 50em) {
+      width: 50em;
+    }
+  }
+}
+
+.monitor-width {
+  width: 480px;
+  @media (min-width: 30em) {
+    width: 30em;
+  }
+  @media (min-width: 40em) {
+    width: 40em;
+  }
+  @media (max-width: 50em) {
+    width: 50em;
+  }
+}
