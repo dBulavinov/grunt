@@ -10,7 +10,14 @@ module.exports = function(grunt) {
     imgDir:         'images/',
     imgSourceDir:   'sourceimages/',
     tempDir:        'temp/',
-    distDir:        'production/'
+    distDir:        'production/',
+
+    // sftp server
+    sftpServer:      'exaple.com',
+    sftpPort:        '2121',
+    sftpLogin:       'login',
+    sftpPas:         'password',
+    sftpDestination: '/pathTo/css'
   };
 
   // tasks
@@ -26,7 +33,7 @@ module.exports = function(grunt) {
         src: ["<%= config.cssDir %>", "<%= config.imgDir %>"]
       },
       css: {
-        src: ["<%= config.cssDir %>"]
+        src: ["<%= config.cssDir %>**/*.map"]
       }
     },
 
@@ -110,7 +117,7 @@ module.exports = function(grunt) {
       },
       css: {
         files: ['<%= config.sassDir %>**/*.scss'],
-        tasks: ['sass:dev'/*, 'newer:autoprefixer:dist'*//*, 'notify:watch'*/],
+        tasks: ['sass:dev'/*, 'newer:autoprefixer:dist'*/],
         options: {
             spawn: false,
         }
@@ -139,7 +146,7 @@ module.exports = function(grunt) {
       options: {
         enabled: true,
         max_js_hint_notifications: 5,
-        title: "Project Alex"
+        title: "Project"
       },
       watch: {
         options: {
@@ -241,6 +248,26 @@ module.exports = function(grunt) {
           '<%= config.cssDir %>all.css' : '<%= config.cssDir %>all.css'
         },
       }
+    },
+
+    'sftp-deploy': {
+      build: {
+        auth: {
+          host: '<%= config.sftpServer %>',
+          port: '<%= config.sftpPort %>',
+          authKey: {
+                    "username": "<%= config.sftpLogin %>",
+                    "password": "<%= config.sftpPas %>"
+                  }
+        },
+        cache: 'sftpCache.json',
+        src: 'css',
+        dest: '<%= config.sftpDestination %>',
+        //exclusions: ['/path/to/source/folder/**/.DS_Store', '/path/to/source/folder/**/Thumbs.db', 'dist/tmp'],
+        serverSep: '/',
+        concurrency: 4,
+        progress: true
+      }
     }
 
   });
@@ -255,6 +282,9 @@ module.exports = function(grunt) {
   //watch + browser sync
   grunt.registerTask('dev', ['browserSync', 'watch']);
   grunt.registerTask('default', ['dev']);
+
+  // upload to server
+  grunt.registerTask('sftp', ['sftp-deploy']);
 
 //finally 
   //css beautiful

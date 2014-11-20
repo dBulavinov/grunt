@@ -1,45 +1,40 @@
-@import "bootstrap-custom";
-@import "bootstrap/variables";
-@import "bootstrap/mixins";
-//@import "bootstrap";
+$mq-breakpoints: (
+    // Base device classes
+    mobile:      320px,
+    tablet:      640px,
+    desktop:    1024px,
+    widescreen: 1200px,
+    tvscreen:   1920px,
 
-body {
-  background: #f0f;
-  //test comment
-}
+    // Tweakpoints
+    mobileLandscape: 480px
+);
 
-h1 {
-  color: #f00;
-}
-.red {
-  color: #f00;
-}
+// Show active breakpoint in top right corner of viewport
+$mq-show-breakpoints: (mobile, mobileLandscape, tablet, desktop, widescreen, tvscreen);
 
-.test {
-  transform: rotate(56deg);
-  .row {
-    margin: 0 0 1em;
-    @media (min-width: 30em) {
-      width: 30em 0;
-    }
-    @media (min-width: 40em) {
-      width: 40em;
-    }
-    @media (max-width: 50em) {
-      width: 50em;
-    }
+@import "base/markup-variables";
+@import "base/markup-mixins";
+@import "base/base-reset";
+@import "mq";
+
+// @import "bootstrap-custom";
+// @import "bootstrap/variables";
+// @import "bootstrap/mixins";
+
+.main {
+  max-width: 990px;
+  width: 100%;
+  margin: 0 auto;
+  background-color: #ccc;
+
+  @include mq(mobile, tablet) {
+    background: #ff0;
   }
-}
-
-.monitor-width {
-  width: 480px;
-  @media (min-width: 30em) {
-    width: 30em;
+  @include mq(tablet) {
+    background: #0ff;
   }
-  @media (min-width: 40em) {
-    width: 40em;
-  }
-  @media (max-width: 50em) {
-    width: 50em;
+  @include mq(desktop) {
+    background: #f0f;
   }
 }
