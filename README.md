@@ -1,7 +1,7 @@
 grunt
 =====
 
-grunt templates:
+templates:
 
 grunt-node-sass — default projects
 
