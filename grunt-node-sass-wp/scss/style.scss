@@ -23,7 +23,7 @@ $mq-breakpoints: (
     mobileLandscape: 480px
 );
 
-/* Show active breakpoint in top right corner of viewport */
+// Show active breakpoint in top right corner of viewport 
 $mq-show-breakpoints: (mobile, mobileLandscape, tablet, desktop, widescreen, tvscreen);
 
 @import "base/markup-variables";
