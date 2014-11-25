@@ -26,7 +26,7 @@ module.exports = function(grunt) {
         src: ["<%= config.cssDir %>", "<%= config.imgDir %>"]
       },
       css: {
-        src: ["<%= config.cssDir %>", "style.css.map"]
+        src: ["<%= config.cssDir %>**/*.map", "style.css.map"]
       }
     },
 
