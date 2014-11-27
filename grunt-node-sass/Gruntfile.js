@@ -55,7 +55,13 @@ module.exports = function(grunt) {
       },
 
       dist: {
-        src: '<%= config.cssDir %>*.css'
+        src: ['<%= config.cssDir %>*.css', 
+              '!<%= config.cssDir %>bootstrap.css',
+              '!<%= config.cssDir %>bootstrap.min.css',
+              '!<%= config.cssDir %>ie.css',
+              '!<%= config.cssDir %>ie8.css',
+              ],
+        //src: '<%= config.cssDir %>*.css'
       },
     },
 
@@ -90,7 +96,7 @@ module.exports = function(grunt) {
       min: {
         options: {
           sourceMap: false,
-          style: 'compressed'
+          outputStyle: 'compressed'
         },
         files: [{
           expand: true,
@@ -230,11 +236,21 @@ module.exports = function(grunt) {
     },
 
     csscomb: {
-      dist: {
+      all: {
         expand: true,
         cwd: '<%= config.cssDir %>',
         src: ['*.css'],
         dest: '<%= config.cssDir %>',
+        ext: '.css'
+      },
+
+      dist: {
+        expand: true,
+        src: ['<%= config.cssDir %>*.css', 
+              '!<%= config.cssDir %>bootstrap.css',
+              '!<%= config.cssDir %>ie.css',
+              '!<%= config.cssDir %>ie8.css'
+              ],
         ext: '.css'
       }
     },
@@ -243,7 +259,12 @@ module.exports = function(grunt) {
       options: {
         log: false
       },
-      your_target: {
+      all: {
+        files: {
+          '<%= config.cssDir %>*.css' : '<%= config.cssDir %>*.css'
+        },
+      },
+      dist: {
         files: {
           '<%= config.cssDir %>all.css' : '<%= config.cssDir %>all.css'
         },
@@ -288,7 +309,7 @@ module.exports = function(grunt) {
 
 //finally 
   //css beautiful
-  grunt.registerTask('cssbeauty', ['sass:dist', 'cmq', 'autoprefixer:dist', 'csscomb:dist']);
+  grunt.registerTask('cssbeauty', ['sass:dist', 'cmq:dist', 'autoprefixer:dist', 'csscomb:dist']);
   //img minify
   grunt.registerTask('imgmin', ['pngmin:all', 'imagemin:jpg']);
 
