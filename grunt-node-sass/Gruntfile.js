@@ -40,7 +40,7 @@ module.exports = function(grunt) {
     // autoprefixer
     autoprefixer: {
       options: {
-        browsers: ['last 4 version', 'ie 8', 'ie 9']
+        browsers: ['> 1%', 'last 4 version', 'Android 4', 'ie 8', 'ie 9']
       },
 
       multiple_files: {
