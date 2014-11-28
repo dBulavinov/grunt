@@ -117,9 +117,9 @@ module.exports = function(grunt) {
       images: {
         files: ['<%= config.imgSourceDir %>**/*.*'],
         tasks: ['newer:svgmin', 'newer:image'/*, 'pngmin:all'*/  ],
-        // options: {
-        //     spawn: false
-        // }
+        options: {
+            spawn: false
+        }
       },
       css: {
         files: ['<%= config.sassDir %>**/*.scss'],
