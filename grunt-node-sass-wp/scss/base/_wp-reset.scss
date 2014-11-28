@@ -33,6 +33,7 @@ body {
 	font: #{$base-font-size}/#{$base-line-height} $base-font-family;
 	background: $base-background-color;
 	overflow-y: scroll;
+	min-width: $base-min-width;
 	-webkit-text-size-adjust:100%;
 	-ms-text-size-adjust:none;
 }
