@@ -13,7 +13,7 @@ module.exports = function(grunt) {
     distDir:        'production/',
 
     // sftp server
-    sftpServer:      'exaple.com',
+    sftpServer:      'example.com',
     sftpPort:        '2121',
     sftpLogin:       'login',
     sftpPas:         'password',
