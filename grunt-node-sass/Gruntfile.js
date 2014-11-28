@@ -116,7 +116,7 @@ module.exports = function(grunt) {
       },
       images: {
         files: ['<%= config.imgSourceDir %>**/*.*'],
-        tasks: ['newer:pngmin:all', 'newer:imagemin:jpg'],
+        tasks: ['newer:pngmin:all', 'newer:imagemin:jpg', 'newer:svgmin:all'],
         options: {
             spawn: false
         }
@@ -235,6 +235,29 @@ module.exports = function(grunt) {
       },
     },
 
+    svgmin: {
+      options: {
+        plugins: [
+          {
+              removeViewBox: false
+          }, {
+              removeUselessStrokeAndFill: false
+          }
+        ]
+      },
+      all: {
+        files: [
+          {
+            expand: true,
+            cwd: '<%= config.imgSourceDir %>',
+            src: ['**/*.svg'],
+            dest: '<%= config.imgDir %>',
+            ext: '.svg'
+          }
+        ]
+      }
+    },
+
     csscomb: {
       all: {
         expand: true,
@@ -311,10 +334,10 @@ module.exports = function(grunt) {
   //css beautiful
   grunt.registerTask('cssbeauty', ['sass:dist', 'cmq:dist', 'autoprefixer:dist', 'csscomb:dist']);
   //img minify
-  grunt.registerTask('imgmin', ['pngmin:all', 'imagemin:jpg']);
+  grunt.registerTask('imgmin', ['pngmin:all', 'imagemin:jpg', 'svgmin:all']);
 
   //final build
-  grunt.registerTask('dist', ['clean:css', 'cssbeauty', 'newer:pngmin:all', 'newer:imagemin:jpg'/*, 'copy:dist','imgmin', 'cssbeauty'*/ ]);
+  grunt.registerTask('dist', ['clean:css', 'cssbeauty', 'newer:pngmin:all', 'newer:imagemin:jpg', 'newer:svgmin:all'/*, 'copy:dist','imgmin', 'cssbeauty'*/ ]);
 
 };
 

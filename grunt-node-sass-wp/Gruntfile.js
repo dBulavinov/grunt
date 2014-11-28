@@ -11,6 +11,13 @@ module.exports = function(grunt) {
     imgSourceDir:   'sourceimages/',
     tempDir:        'temp/',
     distDir:        'production/'
+
+    // sftp server
+    sftpServer:      'exaple.com',
+    sftpPort:        '2121',
+    sftpLogin:       'login',
+    sftpPas:         'password',
+    sftpDestination: '/pathTo/css'
   };
 
   // tasks
@@ -46,7 +53,7 @@ module.exports = function(grunt) {
       },
 
       dist: {
-        src: ['./style.css']
+        src: ['<%= config.cssDir %>*.css', './style.css']
       },
     },
 
@@ -110,7 +117,7 @@ module.exports = function(grunt) {
       },
       images: {
         files: ['<%= config.imgSourceDir %>**/*.*'],
-        tasks: ['newer:pngmin:all', 'newer:imagemin:jpg'],
+        tasks: ['newer:pngmin:all', 'newer:imagemin:jpg', 'newer:svgmin:all'],
         options: {
             spawn: false
         }
@@ -228,6 +235,29 @@ module.exports = function(grunt) {
       },
     },
 
+    svgmin: {
+      options: {
+        plugins: [
+          {
+              removeViewBox: false
+          }, {
+              removeUselessStrokeAndFill: false
+          }
+        ]
+      },
+      all: {
+        files: [
+          {
+            expand: true,
+            cwd: '<%= config.imgSourceDir %>',
+            src: ['**/*.svg'],
+            dest: '<%= config.imgDir %>',
+            ext: '.svg'
+          }
+        ]
+      }
+    },
+
     csscomb: {
       dist: {
         expand: true,
@@ -246,6 +276,26 @@ module.exports = function(grunt) {
           './style.css' : './style.css'
         },
       }
+    },
+
+    'sftp-deploy': {
+      build: {
+        auth: {
+          host: '<%= config.sftpServer %>',
+          port: '<%= config.sftpPort %>',
+          authKey: {
+                    "username": "<%= config.sftpLogin %>",
+                    "password": "<%= config.sftpPas %>"
+                  }
+        },
+        cache: 'sftpCache.json',
+        src: 'css',
+        dest: '<%= config.sftpDestination %>',
+        //exclusions: ['/path/to/source/folder/**/.DS_Store', '/path/to/source/folder/**/Thumbs.db', 'dist/tmp'],
+        serverSep: '/',
+        concurrency: 4,
+        progress: true
+      }
     }
 
   });
@@ -261,14 +311,17 @@ module.exports = function(grunt) {
   grunt.registerTask('dev', ['browserSync', 'watch']);
   grunt.registerTask('default', ['dev']);
 
+  // upload to server
+  grunt.registerTask('sftp', ['sftp-deploy']);
+
 //finally 
   //css beautiful
   grunt.registerTask('cssbeauty', ['sass:dist', 'cmq', 'autoprefixer:dist', 'csscomb:dist']);
   //img minify
-  grunt.registerTask('imgmin', ['pngmin:all', 'imagemin:jpg']);
+  grunt.registerTask('imgmin', ['pngmin:all', 'imagemin:jpg', 'newer:svgmin:all']);
 
   //final build
-  grunt.registerTask('dist', ['clean:css', 'cssbeauty', 'newer:pngmin:all', 'newer:imagemin:jpg'/*, 'copy:dist','imgmin', 'cssbeauty'*/ ]);
+  grunt.registerTask('dist', ['clean:css', 'cssbeauty', 'newer:pngmin:all', 'newer:imagemin:jpg', 'newer:svgmin:all'/*, 'copy:dist','imgmin', 'cssbeauty'*/ ]);
 
 };
 

@@ -16,6 +16,8 @@
     "grunt-notify": "^0.3.1",
     "grunt-pngmin": "^0.6.1",
     "grunt-sass": "^0.16.1",
+    "grunt-sftp-deploy": "^0.2.2",
+    "grunt-svgmin": "^2.0.0",
     "load-grunt-tasks": "^1.0.0"
   }
 }
