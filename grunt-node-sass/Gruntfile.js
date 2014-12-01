@@ -237,7 +237,7 @@ module.exports = function(grunt) {
           }
         ]
       },
-      dist: {
+      all: {
         files: [
           {
             expand: true,
