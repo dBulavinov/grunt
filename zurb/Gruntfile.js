@@ -49,7 +49,7 @@ module.exports = function(grunt) {
         },
         expand: true,
         flatten: true,
-        src: '<%= config.cssDir %>*.css',
+        src: '<%= config.cssDir %>app.css',
         //dest: '<%= config.cssDir %>'
         //dest: '<%= config.tempDir %>css/'
       },
