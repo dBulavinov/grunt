@@ -12,7 +12,7 @@ templates:
 
 **Zurb Foundation**
 
-1. download and unzip
-2. bower install
-3. npm install
-4. edti
+1. download and unzip this config
+2. run `bower install`
+3. run `npm install`
+4. edit `app.scss` and `_settings.scss`
