@@ -15,3 +15,4 @@ templates:
 1. download and unzip
 2. bower install
 3. npm install
+4. edti
