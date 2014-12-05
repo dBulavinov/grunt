@@ -7,6 +7,7 @@ templates:
 2. grunt-node-sass-wp — WP projects
 3. grunt-node-magento1.9 — Magento 1.9 projects
 4. zurb — Zurb Foundation 5.1*
+5. grunt-less — default projects with less
 
 =====
 
