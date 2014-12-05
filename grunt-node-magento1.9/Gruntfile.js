@@ -247,7 +247,7 @@ module.exports = function(grunt) {
       },
       dist: {
         files: {
-          '<%= config.cssDir %>all.css' : '<%= config.cssDir %>all.css'
+          '<%= config.cssDir %>style.css' : '<%= config.cssDir %>style.css'
         },
       }
     },
