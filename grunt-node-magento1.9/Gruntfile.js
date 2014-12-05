@@ -13,7 +13,7 @@ module.exports = function(grunt) {
     distDir:        'production/',
 
     // sftp server
-    sftpServer:      'exapmle.com',
+    sftpServer:      'example.com',
     sftpPort:        '2121',
     sftpLogin:       'login',
     sftpPas:         'password',
@@ -33,7 +33,7 @@ module.exports = function(grunt) {
         src: ["<%= config.cssDir %>", "<%= config.imgDir %>"]
       },
       css: {
-        src: ["<%= config.cssDir %>/**/*.map"]
+        src: ["<%= config.cssDir %>**/*.map"]
       }
     },
 
@@ -55,7 +55,13 @@ module.exports = function(grunt) {
       },
 
       dist: {
-        src: '<%= config.cssDir %>*.css'
+        src: ['<%= config.cssDir %>*.css', 
+              '!<%= config.cssDir %>bootstrap.css',
+              '!<%= config.cssDir %>bootstrap.min.css',
+              '!<%= config.cssDir %>ie.css',
+              '!<%= config.cssDir %>ie8.css',
+              ],
+        //src: '<%= config.cssDir %>*.css'
       },
     },
 
@@ -90,7 +96,7 @@ module.exports = function(grunt) {
       min: {
         options: {
           sourceMap: false,
-          style: 'compressed'
+          outputStyle: 'compressed'
         },
         files: [{
           expand: true,
@@ -110,7 +116,7 @@ module.exports = function(grunt) {
       },
       images: {
         files: ['<%= config.imgSourceDir %>**/*.*'],
-        tasks: ['newer:pngmin:all', 'newer:imagemin:jpg', 'newer:svgmin:all'],
+        tasks: ['newer:imagemin', 'newer:pngmin:all'],
         options: {
             spawn: false
         }
@@ -122,6 +128,39 @@ module.exports = function(grunt) {
             spawn: false,
         }
       }
+    },
+
+    imagemin: {
+      options: {
+        optimizationLevel: 3,
+        svgoPlugins: [{ removeViewBox: false }]
+      },
+      jpg: {
+        files: [{
+          expand: true,
+          cwd: '<%= config.imgSourceDir %>',
+          src: ['**/*.{svg,jpg}'],
+          dest: '<%= config.imgDir %>'
+        }]
+      }
+    },
+
+    // lossy image optimizing (compress png images with pngquant)
+    pngmin: {
+      all: {
+        options: {
+          ext: '.png',
+          force: true
+        },
+        files: [
+          {
+            expand: true,
+            src: ['**/*.png'],
+            cwd: '<%= config.imgSourceDir %>',
+            dest: '<%= config.imgDir %>'
+          }
+        ]
+      },
     },
 
     //Keep multiple browsers & devices in sync when building websites.
@@ -172,92 +211,27 @@ module.exports = function(grunt) {
               '!css/**',
             ],
             dest: '<%= config.distDir %>'
-          } // makes all src relative to cwd
-        ]
-      },
-    },
-
-
-    //minify images
-    imagemin: {
-      jpg: {
-        options: {
-          progressive: true,
-          optimizationLevel: 7
-        },
-        files: [{
-          expand: true,
-          cwd: '<%= config.imgSourceDir %>',
-          src: ['**/*.jpg'],
-          dest: '<%= config.imgDir %>',
-          ext: '.jpg'
-        }]
-      },
-
-      dist: {
-        options: {
-          optimizationLevel: 7,
-          progressive: true
-        },
-        files: [
-          {
-            expand: true,
-            cwd: '<%= config.imgSourceDir %>',
-            src: ['**/*.{png,jpg,gif}'],
-            dest: '<%= config.imgDir %>',
-          }
-        ],
-      },
-    },
-
-    // lossy image optimizing (compress png images with pngquant)
-    pngmin: {
-      all: {
-        options: {
-          ext: '.png',
-          force: true
-        },
-        files: [
-          {
-            expand: true,
-            cwd: '<%= config.imgSourceDir %>',
-            src: ['**/*.png'],
-            dest: '<%= config.imgDir %>',
-            ext: '.png'
           }
         ]
       },
-    },
-
-    svgmin: {
-      options: {
-        plugins: [
-          {
-              removeViewBox: false
-          }, {
-              removeUselessStrokeAndFill: false
-          }
-        ]
-      },
-      all: {
-        files: [
-          {
-            expand: true,
-            cwd: '<%= config.imgSourceDir %>',
-            src: ['**/*.svg'],
-            dest: '<%= config.imgDir %>',
-            ext: '.svg'
-          }
-        ]
-      }
     },
 
     csscomb: {
-      dist: {
+      all: {
         expand: true,
         cwd: '<%= config.cssDir %>',
         src: ['*.css'],
         dest: '<%= config.cssDir %>',
+        ext: '.css'
+      },
+
+      dist: {
+        expand: true,
+        src: ['<%= config.cssDir %>*.css', 
+              '!<%= config.cssDir %>bootstrap.css',
+              '!<%= config.cssDir %>ie.css',
+              '!<%= config.cssDir %>ie8.css'
+              ],
         ext: '.css'
       }
     },
@@ -266,7 +240,12 @@ module.exports = function(grunt) {
       options: {
         log: false
       },
-      your_target: {
+      all: {
+        files: {
+          '<%= config.cssDir %>*.css' : '<%= config.cssDir %>*.css'
+        },
+      },
+      dist: {
         files: {
           '<%= config.cssDir %>all.css' : '<%= config.cssDir %>all.css'
         },
@@ -311,12 +290,12 @@ module.exports = function(grunt) {
 
 //finally 
   //css beautiful
-  grunt.registerTask('cssbeauty', ['sass:dist', 'cmq', 'autoprefixer:dist', 'csscomb:dist']);
+  grunt.registerTask('cssbeauty', ['sass:dist', 'cmq:dist', 'autoprefixer:dist', 'csscomb:dist']);
   //img minify
-  grunt.registerTask('imgmin', ['pngmin:all', 'imagemin:jpg', 'newer:svgmin:all']);
+  grunt.registerTask('imgmin', ['imagemin', 'pngmin:all']);
 
   //final build
-  grunt.registerTask('dist', ['clean:css', 'cssbeauty', 'newer:pngmin:all', 'newer:imagemin:jpg', 'newer:svgmin:all']);
+  grunt.registerTask('dist', ['clean:css', 'cssbeauty', 'newer:imagemin', 'newer:pngmin:all']);
 
 };
 
