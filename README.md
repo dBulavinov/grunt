@@ -14,7 +14,7 @@ templates:
 **Zurb Foundation**
 
 1. download and unzip this config
-2. npm install -g bower
+2. run `npm install -g bower`
 3. run `bower install`
 4. run `npm install`
 5. edit `app.scss` and `_settings.scss`
