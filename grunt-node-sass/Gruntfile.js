@@ -130,15 +130,15 @@ module.exports = function(grunt) {
       }
     },
 
-   img: {
-     jpg: {
+    img: {
+      jpg: {
          src: ['<%= config.imgSourceDir %>**/*.jpg'],
          dest: '<%= config.imgDir %>'
-     },
-   },
+      },
+    },
 
-   svgmin: {
-     options: {
+    svgmin: {
+      options: {
        plugins: [
          {
              removeViewBox: false
@@ -146,8 +146,8 @@ module.exports = function(grunt) {
              removeUselessStrokeAndFill: false
          }
        ]
-     },
-     dist: {
+      },
+      dist: {
        files: [
           {
             expand: true,
@@ -156,8 +156,8 @@ module.exports = function(grunt) {
             dest: '<%= config.imgDir %>'
           }
         ]
-     }
-   },
+      }
+    },
 
     // lossy image optimizing (compress png images with pngquant)
     pngmin: {
