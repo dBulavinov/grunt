@@ -130,21 +130,6 @@ module.exports = function(grunt) {
       }
     },
 
-    // imagemin: {
-    //   options: {
-    //     optimizationLevel: 3,
-    //     svgoPlugins: [{ removeViewBox: false }]
-    //   },
-    //   jpg: {
-    //     files: [{
-    //       expand: true,
-    //       cwd: '<%= config.imgSourceDir %>',
-    //       src: ['**/*.{svg,jpg}'],
-    //       dest: '<%= config.imgDir %>'
-    //     }]
-    //   }
-    // },
-
    img: {
      jpg: {
          src: ['<%= config.imgSourceDir %>**/*.jpg'],
