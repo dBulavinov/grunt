@@ -73,7 +73,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: '<%= config.lessDir %>',
-          src: ['*.less'],
+          src: ['*.less', '!_*.less'],
           dest: '<%= config.cssDir %>',
           ext: '.css'
         }]
@@ -85,7 +85,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: '<%= config.lessDir %>',
-          src: ['*.less'],
+          src: ['*.less', '!_*.less'],
           dest: '<%= config.cssDir %>',
           ext: '.css'
         }]
@@ -98,7 +98,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: '<%= config.lessDir %>',
-          src: ['*.less'],
+          src: ['*.less', '!_*.less'],
           dest: '<%= config.cssDir %>',
           ext: '.min.css'
         }]
@@ -306,7 +306,7 @@ module.exports = function(grunt) {
   grunt.registerTask('imgmin', ['img:jpg', 'svgmin', 'pngmin:all']);
 
   //final build
-  grunt.registerTask('dist', ['clean:css', 'cssbeauty', 'newer:imagemin', 'newer:pngmin:all']);
+  grunt.registerTask('dist', ['clean:css', 'cssbeauty']);
 
 };
 
